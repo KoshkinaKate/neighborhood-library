@@ -34,7 +34,7 @@ public class NeighborhoodLibrary {
             // Use switch to handle user's choices
             switch (command) {
                 case 1:
-                    findAllBooks(inventory); // Show available books
+                    findAllBooks(inventory, myScanner); // Show available books
                     break;
                 case 2:
                     findCheckedOutBooks(inventory); // Show checked out books
@@ -51,28 +51,49 @@ public class NeighborhoodLibrary {
     }
 
     // Method to find and display all available books
-    public static void findAllBooks(Book[] inventory) { //takes an array of Book objects
+    public static void findAllBooks(Book[] inventory, Scanner myScanner) { //takes an array of Book objects + scanner for input
         System.out.println("All available books:");
-        boolean found = false; //initializing to false - meaning no books found and it so goes to the end
+        boolean found = false; //initializing to false - meaning no books found and if so goes to the end
         for (Book book : inventory) { // for each loop , Book object and inventory array
             if (!book.isCheckedOut()) { // checks if book is not checked out
-                System.out.println(book.getId() + " - " + book.getTitle());
+                System.out.println(book.getId() + " - " + book.getTitle() + " isbn - (" + book.getIsbn() + ")");
                 found = true; //if at least one book is found it sets to true
             }
         }
-        if (!found) { // if books are not found then-
+        if (!found) { // if books are not found then- means false confirmed
             System.out.println("No books are available.");
         }
+        System.out.println("Please enter the book ID to check out, or type 0 to go back to the menu:");
+
+        int bookId = myScanner.nextInt(); //reading user input of Id (which is integer)
+        myScanner.nextLine();
+
+        if (bookId == 0) {
+            return; //goes back to the home screen
+        }
+
+        for (Book book : inventory) {
+            if (book.getId() == bookId && !book.isCheckedOut()){ //checks conditions
+                System.out.println("Enter your name to check out the book: ");
+                String userName = myScanner.nextLine(); //reads user's name
+                return; // book is checked out
+            }
+        }
+        System.out.println("The book is already checked out.");
+
+
     }
+
+
 
     // Method to find and display all checked out books
     public static void findCheckedOutBooks(Book[] inventory) {
         System.out.println("Checked Out Books:");
-        boolean found = false;
+        boolean found = false; // found the result of the search if not found goes to the end, meaning have not found anything yet.
         for (Book book : inventory) {
             if (book.isCheckedOut()) { // display if the book is checked out
-                System.out.println( book.getId() + "-" + book.getTitle());
-                found = true;
+                System.out.println( book.getId() + "-" + book.getTitle() + " isbn - (" + book.getIsbn() + ")");
+                found = true; // it is true if found at least one book that has been checked out
             }
         }
         if (!found) {
