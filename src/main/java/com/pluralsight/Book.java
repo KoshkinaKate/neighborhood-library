@@ -57,10 +57,11 @@ public class Book {
     }
 
 // Check out method
-    public void checkOut() {
+    public void checkOut(String userName) {
         if (!isCheckedOut) { //checks if the book is not already checked out (return false- means available)
             this.isCheckedOut = true; // changes from false to true and means the book is checked out
-            System.out.println(title + " has been checked out");
+            this.checkedOutTo = userName; //set the user who is checking out the book
+            System.out.println(title + " has been checked out by " + userName);
         } else {
             System.out.println(title + " is already checked out.");
         }
@@ -70,6 +71,7 @@ public class Book {
     public void checkIn() {
         if (isCheckedOut) { //checking if it is true
             this.isCheckedOut = false; //book has been returned
+            this.checkedOutTo = null; //clear the name of the person who checked it out
             System.out.println(title + " has been checked in");
         } else {
             System.out.println(title + " is not currently checked out.");

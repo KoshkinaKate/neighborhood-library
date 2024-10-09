@@ -62,6 +62,7 @@ public class NeighborhoodLibrary {
         }
         if (!found) { // if books are not found then- means false confirmed
             System.out.println("No books are available.");
+            return; //exits if no books are available
         }
         System.out.println("Please enter the book ID to check out, or type 0 to go back to the menu:");
 
@@ -75,7 +76,9 @@ public class NeighborhoodLibrary {
         for (Book book : inventory) {
             if (book.getId() == bookId && !book.isCheckedOut()){ //checks conditions
                 System.out.println("Enter your name to check out the book: ");
-                String userName = myScanner.nextLine(); //reads user's name
+                String userName = myScanner.nextLine();//reads user's name
+                book.checkOut(userName); // this checkOut method is used to update the book status
+//                System.out.println(book.getTitle() + " has been checked out by " + userName);
                 return; // book is checked out
             }
         }
@@ -92,7 +95,7 @@ public class NeighborhoodLibrary {
         boolean found = false; // found the result of the search if not found goes to the end, meaning have not found anything yet.
         for (Book book : inventory) {
             if (book.isCheckedOut()) { // display if the book is checked out
-                System.out.println( book.getId() + "-" + book.getTitle() + " isbn - (" + book.getIsbn() + ")");
+                System.out.println( book.getId() + "-" + book.getTitle() + " isbn - (" + book.getIsbn() + ") - Checked out by " + book.getCheckedOutTo());
                 found = true; // it is true if found at least one book that has been checked out
             }
         }
