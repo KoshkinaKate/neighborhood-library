@@ -72,7 +72,7 @@ public class Book {
         if (isCheckedOut) { //checking if it is true
             this.isCheckedOut = false; //book has been returned
             this.checkedOutTo = null; //clear the name of the person who checked it out
-            System.out.println(title + " has been checked in");
+            System.out.println(title + " has been checked in. ");
         } else {
             System.out.println(title + " is not currently checked out.");
         }

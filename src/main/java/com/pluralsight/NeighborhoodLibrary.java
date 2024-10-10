@@ -37,7 +37,7 @@ public class NeighborhoodLibrary {
                     findAllBooks(inventory, myScanner); // Show available books
                     break;
                 case 2:
-                    findCheckedOutBooks(inventory); // Show checked out books
+                    findCheckedOutBooks(inventory, myScanner); // Show checked out books
                     break;
                 case 3:
                     System.out.println("Goodbye!");
@@ -56,7 +56,7 @@ public class NeighborhoodLibrary {
         boolean found = false; //initializing to false - meaning no books found and if so goes to the end
         for (Book book : inventory) { // for each loop , Book object and inventory array
             if (!book.isCheckedOut()) { // checks if book is not checked out
-                System.out.println(book.getId() + " - " + book.getTitle() + " isbn - (" + book.getIsbn() + ")");
+                System.out.println("ID " + book.getId() + " - " + book.getTitle() + " isbn - (" + book.getIsbn() + ")");
                 found = true; //if at least one book is found it sets to true
             }
         }
@@ -74,7 +74,7 @@ public class NeighborhoodLibrary {
         }
 
         for (Book book : inventory) {
-            if (book.getId() == bookId && !book.isCheckedOut()){ //checks conditions
+            if (book.getId() == bookId && !book.isCheckedOut()){
                 System.out.println("Enter your name to check out the book: ");
                 String userName = myScanner.nextLine();//reads user's name
                 book.checkOut(userName); // this checkOut method is used to update the book status
@@ -87,21 +87,43 @@ public class NeighborhoodLibrary {
 
     }
 
-
-
     // Method to find and display all checked out books
-    public static void findCheckedOutBooks(Book[] inventory) {
+    public static void findCheckedOutBooks(Book[] inventory, Scanner myScanner) {
         System.out.println("Checked Out Books:");
         boolean found = false; // found the result of the search if not found goes to the end, meaning have not found anything yet.
         for (Book book : inventory) {
             if (book.isCheckedOut()) { // display if the book is checked out
-                System.out.println( book.getId() + "-" + book.getTitle() + " isbn - (" + book.getIsbn() + ") - Checked out by " + book.getCheckedOutTo());
+                System.out.println( "ID " + book.getId() + "-" + book.getTitle() + " isbn - (" + book.getIsbn() + ") - Checked out by " + book.getCheckedOutTo());
                 found = true; // it is true if found at least one book that has been checked out
             }
         }
         if (!found) {
             System.out.println("No books are currently checked out.");
         }
+
+        //implementing conditions for user to check in a book or to return to main menu
+        System.out.println(" Please enter 'C' if you would like to check in the book or 'X' to return to the main menu ");
+        String choice = myScanner.nextLine().toUpperCase();
+
+        if (choice.equals("X")){
+            return;
+        }else if (choice.equals("C")) {
+            System.out.println("Please enter the book ID to check in: ");
+            int bookId = myScanner.nextInt();
+            myScanner.nextLine();
+
+            for (Book book : inventory) {
+                if (book.getId() == bookId && book.isCheckedOut()) {
+                    book.checkIn();
+                    return;
+                }
+            }
+        }else {
+            // If the user entered an invalid option
+            System.out.println("Invalid option. Returning to the home screen.");
+        }
+
     }
+
 }
 
